@@ -25,8 +25,7 @@ cleaned AS (
            business_address,
            street,
            latitude,
-           longitude,
-           open_data_channel_type
+           longitude
        ),
 
        -- Identifiers
