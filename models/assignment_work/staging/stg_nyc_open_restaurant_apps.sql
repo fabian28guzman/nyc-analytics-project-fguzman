@@ -73,8 +73,8 @@ cleaned AS (
        CAST(latitude AS DECIMAL) AS latitude,
        CAST(longitude AS DECIMAL) AS longitude,
 
-       #-- Clearer column name as well for this one
-       # CAST(open_data_channel_type AS STRING) AS method_of_submission,
+       -- #-- Clearer column name as well for this one
+       -- # CAST(open_data_channel_type AS STRING) AS method_of_submission,
 
        -- Metadata
        CURRENT_TIMESTAMP() AS _stg_loaded_at
@@ -83,7 +83,7 @@ cleaned AS (
 
    -- Filters
    WHERE globalid IS NOT NULL
-   #(agency = 'DOT' OR agency_name LIKE '%Transportation%')
+   -- #(agency = 'DOT' OR agency_name LIKE '%Transportation%')
    AND time_of_submission IS NOT NULL
    AND CAST(time_of_submission AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
