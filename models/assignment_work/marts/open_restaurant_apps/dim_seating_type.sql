@@ -4,6 +4,7 @@ WITH seating_types AS (
        seating_interest_sidewalk AS seating_interest,
 --TODO: Replace this comment with a CASE WHEN .. statement that handles the different possibilities for approved_for_sidewalk_seating and approved_for_roadway_seating in the data
 --NOTE: The final result we want to select here is two boolean columns (TRUE or FALSE values in them), one column approved_for_sidewalk (TRUE or FALSE value), and one column approved_for_roadway 
+      approved_for_sidewalk_seating AS approved_for_sidewalk
       approved_for_roadway_seating AS approved_for_roadway
    FROM  {{ ref('stg_nyc_open_restaurant_apps') }}--TODO: reference the appropriate staging table!
    WHERE seating_interest_sidewalk IS NOT NULL
