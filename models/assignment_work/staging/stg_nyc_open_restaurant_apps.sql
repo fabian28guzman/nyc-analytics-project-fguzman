@@ -1,5 +1,5 @@
 -- Clean and standardize 311 DOT service request data
--- One row per open restaurant application request
+-- One row per service request
 
 WITH source AS (
    SELECT * FROM {{ source('raw', 'source_nyc_open_restaurant_apps') }}
@@ -14,7 +14,7 @@ cleaned AS (
            time_of_submission,
            restaurant_name,
            legal_business_name,
-           doing_business_as_dba
+           doing_business_as_dba,
            approved_for_sidewalk_seating,
            approved_for_roadway_seating,
            qualify_alcohol,
