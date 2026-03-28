@@ -68,7 +68,6 @@ cleaned AS (
 
        CAST(business_address AS STRING) AS business_address,
        CAST(street AS STRING) AS street,
-       CAST(cross_street_1 AS STRING) AS cross_street_1,
        CAST(latitude AS DECIMAL) AS latitude,
        CAST(longitude AS DECIMAL) AS longitude,
 
