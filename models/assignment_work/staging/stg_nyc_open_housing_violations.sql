@@ -1,8 +1,8 @@
--- Clean and standardize 311 DOT service request data
+-- Clean and nyc_open_housing_maintenance_code_violations data
 -- One row per service request
 
 WITH source AS (
-   SELECT * FROM {{ source('raw', 'source_nyc_open_restaurant_apps') }}
+   SELECT * FROM {{ source('raw', 'source_nyc_open_housing_maintenance_code_violations') }}
 ), -- Easier to refer to the dbt reference to a long name table this way
 
 cleaned AS (
@@ -10,8 +10,12 @@ cleaned AS (
        -- Get all columns from source, except ones we're transforming below
        -- To do cleaning on them or explicitly cast them as types just in case
        * EXCEPT (
-           globalid,
-           time_of_submission,
+           violationid,
+	   novid,
+           inspectiondate,
+           approveddate,
+           novissuedate,
+           currentstatusdate,
            restaurant_name,
            legal_business_name,
            doing_business_as_dba,
@@ -29,20 +33,31 @@ cleaned AS (
        ),
 
        -- Identifiers
-       CAST(globalid AS STRING) AS globalid,
+       CAST(violationid AS STRING) AS violationid,
+       CAST(novid AS STRING) AS novid,
+       CAST(currentstatusid AS STRING) AS currentstatusid,
 
        -- Date/Time
-       CAST(time_of_submission AS TIMESTAMP) AS time_of_submission,
+       CAST(inspectiondate AS TIMESTAMP) AS inspectiondate,
+       CAST(approveddate AS TIMESTAMP) AS approveddate,
+       CAST(novissuedate AS TIMESTAMP) AS novissuedate,
+       CAST(currentstatusdate AS TIMESTAMP) AS currentstatusdate,
+       CAST(certifieddate AS TIMESTAMP) AS certifieddate,
+       CAST(newcertifybydate AS TIMESTAMP) AS newcertifybydate,
+       CAST(newcorrectbydate AS TIMESTAMP) AS newcorrectbydate,
+       CAST(originalcertifybydate AS TIMESTAMP) AS originalcertifybydate,
+       CAST(originalcorrectbydate AS TIMESTAMP) AS originalcorrectbydate,
+
        
        -- Request details
-       CAST(restaurant_name AS STRING) AS restaurant_name,
-       CAST(legal_business_name AS STRING) AS legal_business_name,
-       CAST(doing_business_as_dba AS STRING) AS doing_business_as_dba,
-       CAST(approved_for_sidewalk_seating AS STRING) AS approved_for_sidewalk_seating,
-       CAST(approved_for_roadway_seating AS STRING) AS approved_for_roadway_seating,
-       CAST(qualify_alcohol AS STRING) AS qualify_alcohol,
-       CAST(seating_interest_sidewalk AS STRING) AS seating_interest_sidewalk,
-       CAST(healthcompliance_terms AS STRING) AS healthcompliance_terms,
+       CAST(violationstatus AS STRING) AS violationstatus,
+       CAST(bin AS STRING) AS bin,
+       CAST(buildingid AS INTEGER) AS buildingid,
+       CAST(ordernumber AS STRING) AS ordernumber,
+       CAST(class AS STRING) AS class,
+       CAST(rentimpairing AS STRING) AS rentimpairing,
+       CAST(novdescription AS STRING) AS novdescription,
+       
        
        -- Location - clean zip code, handling several common zip code data problems
        CASE
@@ -66,8 +81,13 @@ cleaned AS (
            ELSE 'UNKNOWN or CITYWIDE'
        END AS borough,
 
-       CAST(business_address AS STRING) AS business_address,
-       CAST(street AS STRING) AS street,
+       CAST(housenumber AS STRING) AS housenumber,
+       CAST(lowhousenumber AS STRING) AS lowhousenumber,
+       CAST(highhousenumber AS STRING) AS highhousenumber,
+       CAST(streetname AS STRING) AS streetname,
+       CAST(streetcode AS STRING) AS streetcode,
+       CAST(apartment AS STRING) AS apartment,
+       CAST(story AS STRING) AS story,
        CAST(latitude AS DECIMAL) AS latitude,
        CAST(longitude AS DECIMAL) AS longitude,
 
@@ -80,15 +100,15 @@ cleaned AS (
    FROM source
 
    -- Filters
-   WHERE globalid IS NOT NULL
+   WHERE violationid IS NOT NULL
    -- #(agency = 'DOT' OR agency_name LIKE '%Transportation%')
-   AND time_of_submission IS NOT NULL
-   AND CAST(time_of_submission AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
+   AND inspectiondate IS NOT NULL
+   AND CAST(inspectiondate AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
 
    -- Deduplicate
-   QUALIFY ROW_NUMBER() OVER (PARTITION BY globalid ORDER BY time_of_submission DESC) = 1
+   QUALIFY ROW_NUMBER() OVER (PARTITION BY violationid ORDER BY inspectiondate DESC) = 1
 )
 
 SELECT * FROM cleaned
--- All should be part of this table: stg_nyc_open_restaurant_apps
+-- All should be part of this table: stg_nyc_open_housing_violations

@@ -1,8 +1,8 @@
--- Clean and standardize 311 DOT service request data
+-- Clean and standardize 311 HPD service request data
 -- One row per service request
 
 WITH source AS (
-   SELECT * FROM {{ source('raw', 'source_dot_service_requests_history') }}
+   SELECT * FROM {{ source('raw', '311_hpd_service_requests_history') }}
 ), -- Easier to refer to the dbt reference to a long name table this way
 
 cleaned AS (
