@@ -28,10 +28,6 @@ models:
      
      marts:
        +materialized: table
-       +schema: nyc_transit_restaurants_marts
-    
-     project_marts:
-       +materialized: table
        +schema: housing_violations_marts
       
        shared:
