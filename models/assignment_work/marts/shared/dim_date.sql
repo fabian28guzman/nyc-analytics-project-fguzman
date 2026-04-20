@@ -1,16 +1,16 @@
--- Date dimension shared by both restaurant applications and 311 requests
+-- Date dimension shared by both housing and 311 requests
 
 WITH all_dates AS (
    -- Get dates (dates, no time included) from 311 requests
    SELECT DISTINCT CAST(created_date AS DATE) AS full_date
-   FROM {{ ref('stg_nyc_311_dot') }}
+   FROM {{ ref('stg_nyc_311_service_req') }}
    WHERE created_date IS NOT NULL
 
    UNION DISTINCT
 
    -- Get dates from restaurant applications
    SELECT DISTINCT CAST(time_of_submission AS DATE) AS full_date
-   FROM {{ ref('stg_nyc_open_restaurant_apps') }}
+   FROM {{ ref('stg_nyc_open_housing_violations') }}
    WHERE time_of_submission IS NOT NULL
 ),
 
