@@ -33,7 +33,13 @@ cleaned AS (
            ordernumber,
            class,
            rentimpairing,
-           novdescription
+           novdescription,
+           housenumber,
+           lowhousenumber,
+           highhousenumber,
+           streetcode,
+           apartment,
+           story
 
        ),
 
