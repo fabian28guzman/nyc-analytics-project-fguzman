@@ -18,7 +18,7 @@ cleaned AS (
            currentstatusdate,
            zip,
            borough,
-           street,
+           streetname,
            latitude,
            longitude
        ),
