@@ -11,9 +11,9 @@ WITH all_locations AS (
 
    -- Get locations from restaurant applications
    SELECT DISTINCT
-       boro as borough, zip as zip_code -- TODO replace (HINT: look @ dimensional model & staging data!)
+       borough, zip as zip_code -- TODO replace (HINT: look @ dimensional model & staging data!)
    FROM {{ ref('stg_nyc_open_housing_violations') }}
-   WHERE boro IS NOT NULL
+   WHERE borough IS NOT NULL
 ),
 
 location_dimension AS (
