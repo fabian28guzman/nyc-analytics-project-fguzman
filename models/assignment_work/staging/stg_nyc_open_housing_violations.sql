@@ -23,6 +23,7 @@ cleaned AS (
            originalcertifybydate,
            originalcorrectbydate,
            zip,
+           borough,
            boro,
            streetname,
            latitude,
@@ -91,7 +92,8 @@ cleaned AS (
            WHEN UPPER(TRIM(boro)) IN ('STATEN ISLAND', 'RICHMOND COUNTY') THEN 'Staten Island'
            ELSE 'UNKNOWN or CITYWIDE'
        END AS borough,
-
+       
+       CAST(borough AS STRING) AS boroughcode,
        CAST(housenumber AS STRING) AS housenumber,
        CAST(lowhousenumber AS STRING) AS lowhousenumber,
        CAST(highhousenumber AS STRING) AS highhousenumber,
