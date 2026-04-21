@@ -90,7 +90,7 @@ cleaned AS (
            WHEN UPPER(TRIM(boro)) IN ('QUEENS', 'QUEEN', 'QUEENS COUNTY') THEN 'Queens'
            WHEN UPPER(TRIM(boro)) IN ('STATEN ISLAND', 'RICHMOND COUNTY') THEN 'Staten Island'
            ELSE 'UNKNOWN or CITYWIDE'
-       END AS boro,
+       END AS borough,
 
        CAST(housenumber AS STRING) AS housenumber,
        CAST(lowhousenumber AS STRING) AS lowhousenumber,
