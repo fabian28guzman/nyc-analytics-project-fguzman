@@ -11,10 +11,10 @@ cleaned AS (
        -- To do cleaning on them or explicitly cast them as types just in case
        * EXCEPT (
            violationid,
-	   novid,
+           novid,
            inspectiondate,
            approveddate,
-           novissuedate,
+           novissueddate,
            currentstatusdate,
            restaurant_name,
            legal_business_name,
@@ -40,7 +40,7 @@ cleaned AS (
        -- Date/Time
        CAST(inspectiondate AS TIMESTAMP) AS inspectiondate,
        CAST(approveddate AS TIMESTAMP) AS approveddate,
-       CAST(novissuedate AS TIMESTAMP) AS novissuedate,
+       CAST(novissueddate AS TIMESTAMP) AS novissuedate,
        CAST(currentstatusdate AS TIMESTAMP) AS currentstatusdate,
        CAST(certifieddate AS TIMESTAMP) AS certifieddate,
        CAST(newcertifybydate AS TIMESTAMP) AS newcertifybydate,
