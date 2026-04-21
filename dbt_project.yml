@@ -32,4 +32,5 @@ models:
       
        shared:
          +materialized: table
+         +schema: shared
            
