@@ -26,7 +26,15 @@ cleaned AS (
            borough,
            streetname,
            latitude,
-           longitude
+           longitude,
+           violationstatus,
+           bin,
+           buildingid,
+           ordernumber,
+           class,
+           rentimpairing,
+           novdescription
+
        ),
 
        -- Identifiers
