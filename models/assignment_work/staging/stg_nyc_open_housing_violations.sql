@@ -23,7 +23,7 @@ cleaned AS (
            originalcertifybydate,
            originalcorrectbydate,
            zip,
-           borough,
+           boro,
            streetname,
            latitude,
            longitude,
@@ -84,13 +84,13 @@ cleaned AS (
 
        -- Location - standardized borough, just in case
        CASE
-           WHEN UPPER(TRIM(borough)) IN ('MANHATTAN', 'NEW YORK COUNTY') THEN 'Manhattan'
-           WHEN UPPER(TRIM(borough)) IN ('BRONX', 'THE BRONX') THEN 'Bronx'
-           WHEN UPPER(TRIM(borough)) IN ('BROOKLYN', 'KINGS COUNTY') THEN 'Brooklyn'
-           WHEN UPPER(TRIM(borough)) IN ('QUEENS', 'QUEEN', 'QUEENS COUNTY') THEN 'Queens'
-           WHEN UPPER(TRIM(borough)) IN ('STATEN ISLAND', 'RICHMOND COUNTY') THEN 'Staten Island'
+           WHEN UPPER(TRIM(boro)) IN ('MANHATTAN', 'NEW YORK COUNTY') THEN 'Manhattan'
+           WHEN UPPER(TRIM(boro)) IN ('BRONX', 'THE BRONX') THEN 'Bronx'
+           WHEN UPPER(TRIM(boro)) IN ('BROOKLYN', 'KINGS COUNTY') THEN 'Brooklyn'
+           WHEN UPPER(TRIM(boro)) IN ('QUEENS', 'QUEEN', 'QUEENS COUNTY') THEN 'Queens'
+           WHEN UPPER(TRIM(boro)) IN ('STATEN ISLAND', 'RICHMOND COUNTY') THEN 'Staten Island'
            ELSE 'UNKNOWN or CITYWIDE'
-       END AS borough,
+       END AS boro,
 
        CAST(housenumber AS STRING) AS housenumber,
        CAST(lowhousenumber AS STRING) AS lowhousenumber,
@@ -114,8 +114,8 @@ cleaned AS (
    WHERE violationid IS NOT NULL
    -- #(agency = 'DOT' OR agency_name LIKE '%Transportation%')
    AND inspectiondate IS NOT NULL
-   -- # AND CAST(inspectiondate AS DATE) <= DATE_SUB(CURRENT_DATE(), INTERVAL 5 YEAR)
-   AND borough IS NOT NULL
+   AND CAST(inspectiondate AS DATE) <= DATE_SUB(CURRENT_DATE(), INTERVAL 5 YEAR)
+   AND boro IS NOT NULL
 
    -- Deduplicate
    QUALIFY ROW_NUMBER() OVER (PARTITION BY violationid ORDER BY inspectiondate DESC) = 1
