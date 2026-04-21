@@ -29,8 +29,8 @@ models:
      marts:
        +materialized: table
        +schema: housing_violations_marts
-      
-       shared:
-         +materialized: table
-         +schema: shared
+    
+     shared:
+       +materialized: table
+       +schema: shared
            
