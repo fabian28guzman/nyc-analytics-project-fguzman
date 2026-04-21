@@ -18,7 +18,6 @@ cleaned AS (
            currentstatusdate,
            zip,
            borough,
-           business_address,
            street,
            latitude,
            longitude
