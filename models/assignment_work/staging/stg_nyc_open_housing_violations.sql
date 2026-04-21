@@ -114,7 +114,7 @@ cleaned AS (
    WHERE violationid IS NOT NULL
    -- #(agency = 'DOT' OR agency_name LIKE '%Transportation%')
    AND inspectiondate IS NOT NULL
-   #AND CAST(inspectiondate AS DATE) <= DATE_SUB(CURRENT_DATE(), INTERVAL 5 YEAR)
+   -- # AND CAST(inspectiondate AS DATE) <= DATE_SUB(CURRENT_DATE(), INTERVAL 5 YEAR)
    AND borough IS NOT NULL
 
    -- Deduplicate
