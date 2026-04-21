@@ -8,10 +8,10 @@ WITH all_dates AS (
 
    UNION DISTINCT
 
-   -- Get dates from restaurant applications
-   SELECT DISTINCT CAST(time_of_submission AS DATE) AS full_date
+   -- Get dates from open housing violations
+   SELECT DISTINCT CAST(inspectiondate AS DATE) AS full_date
    FROM {{ ref('stg_nyc_open_housing_violations') }}
-   WHERE time_of_submission IS NOT NULL
+   WHERE inspectiondate IS NOT NULL
 ),
 
 date_dimension AS (
