@@ -12,6 +12,7 @@ cleaned AS (
        * EXCEPT (
            violationid,
            novid,
+           currentstatusid,
            inspectiondate,
            approveddate,
            novissueddate,
