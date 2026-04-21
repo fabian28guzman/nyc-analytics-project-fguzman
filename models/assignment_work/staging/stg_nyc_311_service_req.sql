@@ -21,8 +21,6 @@ cleaned AS (
            borough,
            incident_address,
            street_name,
-           cross_street_1,
-           cross_street_2,
            latitude,
            longitude,
            open_data_channel_type
@@ -66,8 +64,6 @@ cleaned AS (
 
        CAST(incident_address AS STRING) AS incident_address,
        CAST(street_name AS STRING) AS street_name,
-       CAST(cross_street_1 AS STRING) AS cross_street_1,
-       CAST(cross_street_2 AS STRING) AS cross_street_2,
        CAST(latitude AS DECIMAL) AS latitude,
        CAST(longitude AS DECIMAL) AS longitude,
 
