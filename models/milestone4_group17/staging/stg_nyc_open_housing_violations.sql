@@ -120,6 +120,8 @@ cleaned AS (
     -- Minimal filtering
     WHERE violationid IS NOT NULL
       AND inspectiondate IS NOT NULL
+      -- Filtering for only Heat Violations
+      AND ordernumber IN ('666', '664', '966', '964')
 
     -- Deduplicate
     QUALIFY ROW_NUMBER() OVER (
