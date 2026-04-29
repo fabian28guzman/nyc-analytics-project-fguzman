@@ -25,13 +25,13 @@ WITH violation_table AS (
 -- Getting all the dimensions that was created
 -- Starting with the date dimension
 dim_date AS (
-    SELECT date_key, full_date FROM {{ref('dim_date_m4')}}
+    SELECT date_key, full_date FROM {{ref('dim_date')}}
 ),
 
 -- Location dimension
 dim_location AS (
     SELECT location_key, borough, zipcode, community_board, council_district
-    FROM {{ref("dim_location_m4")}}
+    FROM {{ref("dim_location")}}
 ),
 
 -- Building Location dimension
