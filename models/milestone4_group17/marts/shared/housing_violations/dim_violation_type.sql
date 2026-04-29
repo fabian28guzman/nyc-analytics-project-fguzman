@@ -1,35 +1,42 @@
--- Violation Status Dimension - Each row represents a violation status
+-- violation type dimesion
 
-WITH violation_status_table AS (
+WITH violation_type_table AS (
+    
     SELECT
-        current_status_id,
-        current_status,
-        violation_status
+        order_number,
+        violation_class,
+        rent_impairing,
+        nov_type,
+        nov_description
 
     FROM {{ref('stg_nyc_open_housing_violations')}}
-    GROUP BY
-        current_status_id,
-        current_status,
-        violation_status
+    GROUP BY 
+        order_number,
+        violation_class,
+        rent_impairing,
+        nov_type,
+        nov_description
 ),
 
-violation_status_dimension AS (
+violation_type_dimension AS (
     SELECT
         {{
-            dbt_utils.generate_surrogate_key(
-            [
-            'current_status_id',
-            'current_status',
-            'violation_status'  
-            ]
-            )
-        }} AS violation_status_key,
+            dbt_utils.generate_surrogate_key([
+            'order_number',
+            'violation_class',
+            'rent_impairing',
+            'nov_type',
+            'nov_description'
+            ])
+        }} AS violation_type_key,
+        
+        order_number,
+        violation_class,
+        rent_impairing,
+        nov_type,
+        nov_description
 
-        current_status_id,
-        current_status,
-        violation_status
-
-    FROM violation_status_table
+    FROM violation_type_table
 )
 
-SELECT * FROM violation_status_dimension
+SELECT * FROM violation_type_dimension
