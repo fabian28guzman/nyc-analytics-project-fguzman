@@ -24,13 +24,37 @@ models:
    assignment_work:
      staging:
        +materialized: table
-       +schema: housing_violations_staging
-     
+       +schema: nyc_transit_restaurants_staging
+
      marts:
        +materialized: table
-       +schema: housing_violations_marts
+       +schema: nyc_transit_restaurants_marts
       
        shared:
+         +materialized: table
+
+       open_restaurant_apps:
+         +materialized: table
+
+       dot_311:
+         +materialized: table
+
+   milestone4_group17:
+     staging:
+       +materialized: table
+       +schema: nyc_group_staging
+
+     marts:
+       +materialized: table
+       +schema: nyc_group_marts
+
+       shared:
+         +materialized: table
+
+       311_hpd_service_request:
+         +materialized: table
+
+       housing_violation:
          +materialized: table
     
            
