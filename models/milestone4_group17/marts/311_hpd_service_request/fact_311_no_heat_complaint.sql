@@ -16,10 +16,10 @@ joined AS (
         -- Date keys
         created.date_key AS created_date_key,
         closed.date_key AS closed_date_key,
+        resolution_updated.date_key AS resolution_updated_date_key,
 
-        -- Not available in staging (leave NULL for now)
+        -- Not available in staging
         NULL AS due_date_key,
-        NULL AS resolution_updated_date_key,
 
         -- Location
         loc.location_key,
@@ -33,9 +33,9 @@ joined AS (
         -- Channel
         channel_dim.channel_key,
 
-        -- Problem + resolution
-        base.descriptor AS problem_detail,
-        base.descriptor_2 AS resolution_description,
+        -- Problem + resolution (model-aligned naming)
+        base.descriptor AS location_detail,
+        base.descriptor_2 AS complaint_detail,
 
         -- Resolution metric
         CASE 
@@ -53,27 +53,32 @@ joined AS (
 
     FROM base
 
-    -- 🔥 FIXED LOCATION JOIN (this was your error)
+    -- LOCATION JOIN
     LEFT JOIN {{ ref('dim_location_m4') }} loc
         ON base.borough = loc.borough
-       AND base.incident_zip = loc.zipcode   -- ✅ FIX HERE
+       AND base.incident_zip = loc.zipcode
        AND base.community_board = loc.community_board
        AND base.council_district = loc.council_district
 
-    -- Status dimension
+    -- STATUS JOIN
     LEFT JOIN {{ ref('dim_status_311') }} status_dim
         ON base.status = status_dim.status
 
-    -- Channel dimension
+    -- CHANNEL JOIN
     LEFT JOIN {{ ref('dim_channel') }} channel_dim
         ON base.method_of_submission = channel_dim.open_data_channel_type
 
-    -- Date dimensions
+    -- DATE JOIN: created
     LEFT JOIN {{ ref('dim_date_m4') }} created
         ON DATE(base.created_date) = created.full_date
 
+    -- DATE JOIN: closed
     LEFT JOIN {{ ref('dim_date_m4') }} closed
         ON DATE(base.closed_date) = closed.full_date
+
+    -- DATE JOIN: resolution updated (STRING → TIMESTAMP → DATE)
+    LEFT JOIN {{ ref('dim_date_m4') }} resolution_updated
+        ON DATE(CAST(base.resolution_action_updated_date AS TIMESTAMP)) = resolution_updated.full_date
 )
 
 SELECT * FROM joined
