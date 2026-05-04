@@ -18,9 +18,6 @@ joined AS (
         closed.date_key AS closed_date_key,
         resolution_updated.date_key AS resolution_updated_date_key,
 
-        -- Not available in staging
-        NULL AS due_date_key,
-
         -- Location
         loc.location_key,
 

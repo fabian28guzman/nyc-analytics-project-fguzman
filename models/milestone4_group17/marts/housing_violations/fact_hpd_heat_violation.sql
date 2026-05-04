@@ -63,13 +63,11 @@ final AS (
         -- Natural Key
         v.violation_id,
 
-        -- Foriegn Keys
+        -- Foreign Keys
         d_inspection.date_key AS inspection_date_key,
         d_approve.date_key AS approved_date_key,
         d_original_certify.date_key AS original_certify_by_date_key,
         d_original_correct.date_key AS original_correct_by_date_key,
-        d_new_certify.date_key AS new_certify_by_date_key,
-        d_new_correct.date_key AS new_correct_by_date_key,
         d_certified_date.date_key AS certified_date_key,
         d_nov.date_key AS nov_issue_date_key,
         d_current_status.date_key AS current_status_date_key,
@@ -104,12 +102,6 @@ final AS (
 
     LEFT JOIN dim_date d_original_correct
         ON CAST (v.original_correct_by_date AS DATE) = d_original_correct.full_date
-    
-    LEFT JOIN dim_date d_new_certify
-        ON CAST (v.new_certify_by_date AS DATE) = d_new_certify.full_date
-
-    LEFT JOIN dim_date d_new_correct
-        ON CAST (v.new_correct_by_date AS DATE) = d_new_correct.full_date
     
     LEFT JOIN dim_date d_certified_date
         ON CAST (v.certified_date AS DATE) = d_certified_date.full_date
